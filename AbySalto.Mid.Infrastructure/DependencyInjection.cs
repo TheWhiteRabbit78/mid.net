@@ -1,7 +1,11 @@
 ﻿using AbySalto.Mid.Application.Authentication.Services;
+using AbySalto.Mid.Application.Products.Models;
+using AbySalto.Mid.Application.Products.Services;
 using AbySalto.Mid.Domain.Identity;
 using AbySalto.Mid.Infrastructure.Authentication;
+using AbySalto.Mid.Infrastructure.External.DummyJson;
 using AbySalto.Mid.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Identity;
 
 namespace AbySalto.Mid.Infrastructure
 {
@@ -12,23 +16,26 @@ namespace AbySalto.Mid.Infrastructure
             services.AddDatabase(configuration);
             services.AddIdentityServices();
             services.AddAuthenticationServices(configuration);
-            services.AddServices();
+            services.AddExternalClients(configuration);
+            services.AddCaching();
 
             return services;
         }
 
         private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            string connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured.");
+            string connectionString = configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured.");
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(connectionString));
 
             return services;
         }
 
         private static IServiceCollection AddIdentityServices(this IServiceCollection services)
         {
-            // AddIdentityCore
+            // AddIdentityCore over AddDefaultIdentity — this is an API, no cookie-based UI flows needed
             services.AddIdentityCore<ApplicationUser>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -53,8 +60,26 @@ namespace AbySalto.Mid.Infrastructure
             return services;
         }
 
-        private static IServiceCollection AddServices(this IServiceCollection services)
+        private static IServiceCollection AddExternalClients(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<DummyJsonSettings>(configuration.GetSection(DummyJsonSettings.SectionName));
+
+            DummyJsonSettings settings = configuration
+                .GetSection(DummyJsonSettings.SectionName)
+                .Get<DummyJsonSettings>()
+                ?? new DummyJsonSettings();
+
+            services.AddHttpClient<IDummyJsonClient, DummyJsonClient>(client =>
+            {
+                client.BaseAddress = new Uri(settings.BaseUrl);
+            });
+
+            return services;
+        }
+
+        private static IServiceCollection AddCaching(this IServiceCollection services)
+        {
+            services.AddMemoryCache();
             return services;
         }
     }

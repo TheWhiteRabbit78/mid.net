@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AbySalto.Mid.Application.Products.Services;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AbySalto.Mid.Application
@@ -8,6 +9,7 @@ namespace AbySalto.Mid.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
+            services.AddScoped<IProductService, ProductService>();
 
             return services;
         }
