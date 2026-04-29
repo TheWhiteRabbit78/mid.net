@@ -1,4 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi;
 
 namespace AbySalto.Mid
 {
@@ -11,7 +11,7 @@ namespace AbySalto.Mid
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AbySalto", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AbySalto Mid", Version = "v1" });
             });
 
             return services;
