@@ -1,8 +1,7 @@
-
 using AbySalto.Mid.Application;
 using AbySalto.Mid.Infrastructure;
 
-namespace AbySalto.Mid
+namespace AbySalto.Mid.WebApi
 {
     public class Program
     {
