@@ -1,6 +1,7 @@
-﻿using AbySalto.Mid.Domain.Identity;
+﻿using AbySalto.Mid.Application.Authentication.Services;
+using AbySalto.Mid.Domain.Identity;
+using AbySalto.Mid.Infrastructure.Authentication;
 using AbySalto.Mid.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Identity;
 
 namespace AbySalto.Mid.Infrastructure
 {
@@ -10,6 +11,7 @@ namespace AbySalto.Mid.Infrastructure
         {
             services.AddDatabase(configuration);
             services.AddIdentityServices();
+            services.AddAuthenticationServices(configuration);
             services.AddServices();
 
             return services;
@@ -39,6 +41,14 @@ namespace AbySalto.Mid.Infrastructure
             })
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddAuthenticationServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
+            services.AddSingleton<IJwtTokenService, JwtTokenService>();
 
             return services;
         }

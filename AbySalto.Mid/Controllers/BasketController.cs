@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace AbySalto.Mid.Controllers
+namespace AbySalto.Mid.WebApi.Controllers
 {
-    public class BasketController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class BasketController : ControllerBase
     {
+        [HttpGet]
+        public IActionResult Get() => Ok("working");
     }
 }

@@ -19,6 +19,7 @@ namespace AbySalto.Mid.Infrastructure.Persistence
         public virtual DbSet<Favorite> Favorites { get; set; } = null!;
         public virtual DbSet<Basket> Baskets { get; set; } = null!;
         public virtual DbSet<BasketItem> BasketItems { get; set; } = null!;
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
