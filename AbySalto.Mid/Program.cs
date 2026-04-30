@@ -2,6 +2,7 @@
 using AbySalto.Mid.Application;
 using AbySalto.Mid.Infrastructure;
 using AbySalto.Mid.Infrastructure.Authentication;
+using AbySalto.Mid.WebApi.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -13,8 +14,6 @@ namespace AbySalto.Mid.WebApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
-
             builder.Services
                 .AddPresentation()
                 .AddApplication()
@@ -23,6 +22,8 @@ namespace AbySalto.Mid.WebApi
             ConfigureAuthentication(builder);
 
             var app = builder.Build();
+
+            app.UseMiddleware<GlobalExceptionMiddleware>();
 
             if (app.Environment.IsDevelopment())
             {
