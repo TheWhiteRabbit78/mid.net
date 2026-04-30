@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbySalto.Mid.Domain", "AbyS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbySalto.Mid.Application", "AbySalto.Mid.Application\AbySalto.Mid.Application.csproj", "{8A1A6302-33F1-4B75-A828-8BABBC2CA429}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B2C4D6E8-1A3B-4D5F-9C7E-8F1A2B3C4D5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbySalto.Mid.Application.Tests", "tests\AbySalto.Mid.Application.Tests\AbySalto.Mid.Application.Tests.csproj", "{3E5B1C7A-9F8D-4E2B-B6A1-7C4D8E9F0A1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +37,15 @@ Global
 		{8A1A6302-33F1-4B75-A828-8BABBC2CA429}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A1A6302-33F1-4B75-A828-8BABBC2CA429}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A1A6302-33F1-4B75-A828-8BABBC2CA429}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E5B1C7A-9F8D-4E2B-B6A1-7C4D8E9F0A1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E5B1C7A-9F8D-4E2B-B6A1-7C4D8E9F0A1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E5B1C7A-9F8D-4E2B-B6A1-7C4D8E9F0A1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E5B1C7A-9F8D-4E2B-B6A1-7C4D8E9F0A1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3E5B1C7A-9F8D-4E2B-B6A1-7C4D8E9F0A1B} = {B2C4D6E8-1A3B-4D5F-9C7E-8F1A2B3C4D5E}
 	EndGlobalSection
 EndGlobal
