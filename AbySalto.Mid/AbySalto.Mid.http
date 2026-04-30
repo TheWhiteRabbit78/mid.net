@@ -1,6 +1,0 @@
-@AbySalto.Mid_HostAddress = http://localhost:5269
-
-GET {{AbySalto.Mid_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
