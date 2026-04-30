@@ -1,0 +1,118 @@
+@hostAddress = https://localhost:7221
+@contentType = application/json
+
+# Credentials reused across requests below. Adjust before running register.
+@username = patrik
+@password = Password1!
+
+# Tokens captured from the login response are reused for subsequent calls.
+# After running "Login", click the "Use as variable" arrow next to accessToken
+# in the response, or replace the placeholders manually.
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImYxMGMyZjM2LTcxZGEtNDc2Ny1hY2Q5LWVkMWJhYWQzZGU2NiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJwYXRyaWsiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwYXRyaWtAdGVzdC5ociIsImV4cCI6MTc3NzU2MDQxNiwiaXNzIjoiQWJ5U2FsdG8uTWlkIiwiYXVkIjoiQWJ5U2FsdG8uTWlkLkNsaWVudHMifQ.O1w5pUSjg3vVxAHDXMsCyWKSHHqE-H50hT_gjhIXsb4
+@refreshToken = paste-refresh-token-here
+
+###
+# @name Register
+# Registers a new user. Run this first, once.
+POST {{hostAddress}}/v1/authentication/users
+Content-Type: {{contentType}}
+
+{
+  "username": "{{username}}",
+  "email": "patrik@test.hr",
+  "password": "{{password}}",
+  "firstName": "Patrik",
+  "lastName": "Uvodic"
+}
+
+###
+# @name Login
+# Authenticates and returns access + refresh tokens.
+POST {{hostAddress}}/v1/authentication/users/tokens
+Content-Type: {{contentType}}
+
+{
+  "username": "{{username}}",
+  "password": "{{password}}"
+}
+
+###
+# @name Me
+# Returns the current authenticated user.
+GET {{hostAddress}}/v1/authentication/users/me
+Authorization: Bearer {{accessToken}}
+
+###
+# @name RefreshToken
+# Exchanges the refresh token for a new access + refresh token pair.
+POST {{hostAddress}}/v1/authentication/users/tokens/refresh
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+###
+# @name GetProducts
+# Paginated, sorted product list. Cached for 5 minutes per (page, pageSize, sortBy, order).
+GET {{hostAddress}}/v1/products?page=1&pageSize=10&sortBy=price&order=asc
+Authorization: Bearer {{accessToken}}
+
+###
+# @name GetProduct
+# Single product by id. Cached for 5 minutes per id.
+GET {{hostAddress}}/v1/products/1
+Authorization: Bearer {{accessToken}}
+
+###
+# @name AddFavorite
+# Adds product 1 to the current user's favorites.
+POST {{hostAddress}}/v1/favorites/1
+Authorization: Bearer {{accessToken}}
+
+###
+# @name GetFavorites
+# Returns the current user's favorites with hydrated product details.
+GET {{hostAddress}}/v1/favorites
+Authorization: Bearer {{accessToken}}
+
+###
+# @name RemoveFavorite
+# Removes product 1 from the current user's favorites.
+DELETE {{hostAddress}}/v1/favorites/1
+Authorization: Bearer {{accessToken}}
+
+###
+# @name GetBasket
+# Returns the current user's basket with hydrated items and computed totals.
+GET {{hostAddress}}/v1/basket
+Authorization: Bearer {{accessToken}}
+
+###
+# @name AddBasketItem
+# Adds product 1 with quantity 2 to the basket. Creates the basket on first use.
+POST {{hostAddress}}/v1/basket/items
+Authorization: Bearer {{accessToken}}
+Content-Type: {{contentType}}
+
+{
+  "productId": 1,
+  "quantity": 2
+}
+
+###
+# @name UpdateBasketItem
+# Updates the quantity of product 1 in the basket.
+PUT {{hostAddress}}/v1/basket/items/1
+Authorization: Bearer {{accessToken}}
+Content-Type: {{contentType}}
+
+{
+  "quantity": 5
+}
+
+###
+# @name RemoveBasketItem
+# Removes product 1 from the basket.
+DELETE {{hostAddress}}/v1/basket/items/1
+Authorization: Bearer {{accessToken}}
