@@ -1,4 +1,5 @@
-﻿using AbySalto.Mid.Domain.Baskets;
+﻿using AbySalto.Mid.Application.Common.Persistence;
+using AbySalto.Mid.Domain.Baskets;
 using AbySalto.Mid.Domain.Favorites;
 using AbySalto.Mid.Domain.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -9,7 +10,7 @@ namespace AbySalto.Mid.Infrastructure.Persistence
     /// Application database context. Inherits from <see cref="IdentityDbContext{TUser, TRole, TKey}"/>
     /// to provide ASP.NET Core Identity tables alongside the application's own entities.
     /// </summary>
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

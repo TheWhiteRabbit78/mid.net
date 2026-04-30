@@ -1,4 +1,5 @@
 ﻿using AbySalto.Mid.Application.Authentication.Services;
+using AbySalto.Mid.Application.Common.Persistence;
 using AbySalto.Mid.Application.Products.Models;
 using AbySalto.Mid.Application.Products.Services;
 using AbySalto.Mid.Domain.Identity;
@@ -29,6 +30,8 @@ namespace AbySalto.Mid.Infrastructure
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(connectionString));
+
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
             return services;
         }

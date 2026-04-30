@@ -2,9 +2,9 @@
 using AbySalto.Mid.Application.Authentication.Extensions;
 using AbySalto.Mid.Application.Authentication.Models;
 using AbySalto.Mid.Application.Authentication.Services;
+using AbySalto.Mid.Application.Common.Persistence;
 using AbySalto.Mid.Domain.Identity;
 using AbySalto.Mid.Infrastructure.Authentication;
-using AbySalto.Mid.Infrastructure.Persistence;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -22,7 +22,7 @@ namespace AbySalto.Mid.WebApi.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IApplicationDbContext _dbContext;
         private readonly IJwtTokenService _jwtTokenService;
         private readonly JwtSettings _jwtSettings;
         private readonly IValidator<RegisterRequest> _registerValidator;
@@ -32,7 +32,7 @@ namespace AbySalto.Mid.WebApi.Controllers
 
         public AuthenticationController(
             UserManager<ApplicationUser> userManager,
-            ApplicationDbContext dbContext,
+            IApplicationDbContext dbContext,
             IJwtTokenService jwtTokenService,
             IOptions<JwtSettings> jwtSettings,
             IValidator<RegisterRequest> registerValidator,
